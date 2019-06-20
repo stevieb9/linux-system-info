@@ -1,0 +1,8 @@
+//
+// Created by spek on 20/06/19.
+//
+
+#ifndef LINUX_SYSTEM_INFO_SYSINFO_H
+#define LINUX_SYSTEM_INFO_SYSINFO_H
+
+#endif //LINUX_SYSTEM_INFO_SYSINFO_H
