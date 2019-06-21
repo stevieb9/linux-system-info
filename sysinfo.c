@@ -6,6 +6,7 @@
 #include "sys/sysinfo.h"
 #include <stdio.h>
 
+#define TEMP_BUFSIZE 8
 
 double cpuPercent (){
 
@@ -61,10 +62,37 @@ double memPercent (){
   return percent;
 }
 
+const char* coreTemp (void) {
+  char *cmd = "vcgencmd measure_temp";
+
+  char *buf = malloc (sizeof (char) * TEMP_BUFSIZE);
+
+//  char buf[TEMP_BUFSIZE];
+  FILE *fp;
+
+  if ((fp = popen(cmd, "r")) == NULL) {
+    printf("Error opening pipe for coreTemp()!\n");
+    exit(-1);
+  }
+
+  while (fgets(buf, TEMP_BUFSIZE, fp) != NULL) {
+    // Do whatever you want here...
+    printf("OUTPUT: %s", buf);
+  }
+
+  if(pclose(fp))  {
+    printf("coreTemp(): Command not found or exited with error status\n");
+    exit(-1);
+  }
+
+  return buf;
+}
+
 int main (){
   while (1){
     printf("cpu%%: %.2f\n", cpuPercent());
     printf("mem%%: %.2f\n", memPercent());
+    printf("%s\n", coreTemp());
     sleep(1);
   }
 }
