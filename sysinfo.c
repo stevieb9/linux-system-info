@@ -6,17 +6,12 @@
 #include "sys/sysinfo.h"
 #include <stdio.h>
 
-static unsigned long long lastTotalUser, lastTotalUserLow, lastTotalSys, lastTotalIdle;
-
-void init(){
-  FILE* file = fopen("/proc/stat", "r");
-  fscanf(file, "cpu %llu %llu %llu %llu", &lastTotalUser, &lastTotalUserLow,
-         &lastTotalSys, &lastTotalIdle);
-  fclose(file);
-}
 
 double cpuPercent (){
+
+  static unsigned long long lastTotalUser, lastTotalUserLow, lastTotalSys, lastTotalIdle;
   double percent;
+
   FILE* file;
   unsigned long long totalUser, totalUserLow, totalSys, totalIdle, total;
 
@@ -68,8 +63,8 @@ double memPercent (){
 
 int main (){
   while (1){
-    printf("cpu% : %.2f\n", cpuPercent());
-    printf("mem% : %.2f\n", memPercent());
+    printf("cpu%%: %.2f\n", cpuPercent());
+    printf("mem%%: %.2f\n", memPercent());
     sleep(1);
   }
 }
